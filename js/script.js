@@ -20,7 +20,7 @@ let displayPage = (list, page) => {
     if (index >= startIndex && index <= endIndex) {
       console.log(index);
       console.log(item);
-       listOfStudentsContainer.appendChild(item);
+      listOfStudentsContainer.appendChild(item);
     }
   });
 };
