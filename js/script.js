@@ -1,7 +1,26 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
+/*********************************************************************
+ dynamically add search feature with search box and search buton
+
+**********************************************************************/
+let pageHeaderContainer = document.querySelector("div .page-header");//get header container
+
+//creating div to container searchbox and button
+let searchStudent = document.createElement("div");
+searchStudent.setAttribute("class", "student-search");
+
+let searchStudentInputBox = document.createElement("input");//search inputbox
+let searchStudentButton = document.createElement("BUTTON");//search button
+searchStudentButton.textContent = "Search"
+searchStudentInputBox.setAttribute("placeholder", "Search for students...");
+
+searchStudent.appendChild(searchStudentInputBox);
+searchStudent.appendChild(searchStudentButton);
+pageHeaderContainer.appendChild(searchStudent);
+
+/********************************************************************
+ * Display 10 students per page based on pagination number clicked
+ * 
+ ********************************************************************/
 const listOfStudents = document.querySelectorAll(".student-item");
 const numberOfStudentsToDisplay = 10;
 
@@ -23,10 +42,10 @@ let displayPage = (list, page) => {
   });
 };
 
-/*** 
+/*********************************************************************** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
-***/
+************************************************************************/
 let appendPageLinks = list => {
   //append links to page based on length of list
   let numberOfPages = Math.ceil(list.length / numberOfStudentsToDisplay);
@@ -93,6 +112,8 @@ let appendPageLinks = list => {
   //      </ul>
   //    </div>
 };
+
+//implement search feature using search box.
 
 displayPage(listOfStudents, 1); //default page is number 1
 appendPageLinks(listOfStudents);
