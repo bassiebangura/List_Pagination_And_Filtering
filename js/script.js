@@ -139,6 +139,7 @@ let appendPageLinks = list => {
 };
 
 //add eventlistener to search box;
+let searchButton = document.querySelector("button")
 let inputBox = document.querySelector("input");
 inputBox.addEventListener("keyup", () => {
   let inputBoxValue, studentName, i, txtValue;
@@ -161,5 +162,29 @@ inputBox.addEventListener("keyup", () => {
   //appendPageLinks(filterListOfStudents);
 }); //() => console.log("hello"))//);
 
+
+//search button implementation
+searchButton.addEventListener("click", () => {
+    let inputBoxValue, studentName, i, txtValue;
+    inputBoxValue = inputBox.value.toUpperCase();
+    for (i = 0; i < listOfStudents.length; i++) {
+      //console.log(list[i])
+      studentName = listOfStudents[i].getElementsByTagName("h3")[0];
+      //console.log(studentName)
+      txtValue = studentName.textContent;
+     
+      if (txtValue.toUpperCase().indexOf(inputBoxValue) > -1) {
+        listOfStudents[i].style.display = "";
+      } else {
+        listOfStudents[i].style.display = "none";
+      }
+    }
+    //const filterListOfStudents = document.querySelectorAll(".student-item");
+    //document.querySelector("pagination");
+    //appendPageLinks(filterListOfStudents);
+    //1. add all students whose name meet criteria to student-list container.
+    //2. call pagination on your results
+  }
+)
 displayPage(listOfStudents, 1); //default page is number 1
 appendPageLinks(listOfStudents); //call function to add pagination numbers
