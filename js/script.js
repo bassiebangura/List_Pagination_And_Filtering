@@ -1,44 +1,28 @@
-/*********************************************************************
- dynamically add search feature with search box and search buton
-
-**********************************************************************/
+const listOfStudents = document.querySelectorAll(".student-item");
+const listOfStudentsContainer = document.querySelector("ul.student-list");
+const numberOfStudentsToDisplay = 10;
 let pageHeaderContainer = document.querySelector("div .page-header"); //get header container
+let pageContainer = document.querySelector("body .page");
 
-//implement search feature using search box.
-// let arrayListOfStudentNames = Array.from(
-//   document.querySelectorAll(".student-details h3"),
-//   studentName => studentName.textContent
-// );
-//console.log("These are the students:", arrayListOfStudentNames);
 
-// let searchFeature = () => {
-//   let inputBoxValue, studentName, i, txtValue;
-//   inputBoxValue = inputBox.value.toUpperCase();
-//   for (i = 0; i < listOfStudents.length; i++) {
-//     //console.log(list[i])
-//     studentName = listOfStudents[i].getElementsByTagName("h3")[0];
-//     //console.log(studentName)
-//     txtValue = studentName.textContent;
-//     console.log(txtValue);
-//     console.log(inputBoxValue);
-//     if (txtValue.toUpperCase().indexOf(inputBoxValue) > -1) {
-//       listOfStudents[i].style.display = "";
-//     } else {
-//       listOfStudents[i].style.display = "none";
-//     }
-//   }
-// };
 
+//function to create elements
+let createAnElement = elementType => {
+  //takes tag as arg and return created element
+  let el;
+  el = document.createElement(elementType);
+  return el;
+};
 //creating div to container searchbox and button
-let searchStudent = document.createElement("div");
+let searchStudent = createAnElement("div"); //document.createElement("div");
 searchStudent.setAttribute("class", "student-search");
 
-let searchStudentInputBox = document.createElement("input"); //search inputbox
-let searchStudentButton = document.createElement("BUTTON"); //search button
+let searchStudentsearchBox = createAnElement("input"); //search searchBox
+let searchStudentButton = createAnElement("BUTTON"); //search button
 searchStudentButton.textContent = "Search";
-searchStudentInputBox.setAttribute("placeholder", "Search for students...");
+searchStudentsearchBox.setAttribute("placeholder", "Search for students...");
 
-searchStudent.appendChild(searchStudentInputBox);
+searchStudent.appendChild(searchStudentsearchBox);
 searchStudent.appendChild(searchStudentButton);
 pageHeaderContainer.appendChild(searchStudent);
 
@@ -46,8 +30,8 @@ pageHeaderContainer.appendChild(searchStudent);
  * Display 10 students per page based on pagination number clicked
  *
  ********************************************************************/
-const listOfStudents = document.querySelectorAll(".student-item");
-const numberOfStudentsToDisplay = 10;
+
+//console.log(listOfStudents);
 
 let displayPage = (list, page) => {
   /*function evlautes start and end index from list
@@ -71,10 +55,11 @@ let displayPage = (list, page) => {
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ************************************************************************/
-let appendPageLinks = list => {
+console.log(document.getElementsByClassName("pagination"));
+let appendPageLinks = (totalItems) => {
+  
   //append links to page based on length of list
-  let numberOfPages = Math.ceil(list.length / numberOfStudentsToDisplay);
-  let pageContainer = document.querySelector("body .page");
+  let numberOfPages = Math.ceil(totalItems.length / numberOfStudentsToDisplay);
   let paginationDivContainer = document.createElement("div");
   let paginationDivContainerUl = document.createElement("ul");
 
@@ -117,74 +102,83 @@ let appendPageLinks = list => {
     console.log(el.target.textContent);
     displayPage(listOfStudents, el.target.textContent);
   });
-  // <div class="pagination">
-  //      <ul>
-  //        <li>
-  //          <a class="active" href="#">1</a>
-  //        </li>
-  //         <li>
-  //          <a href="#">2</a>
-  //        </li>
-  //         <li>
-  //          <a href="#">3</a>
-  //        </li>
-  //         <li>
-  //          <a href="#">4</a>
-  //        </li>
-  //         <li>
-  //          <a href="#">5</a>
-  //        </li>
-  //      </ul>
-  //    </div>
 };
 
 //add eventlistener to search box;
-let searchButton = document.querySelector("button")
-let inputBox = document.querySelector("input");
-inputBox.addEventListener("keyup", () => {
-  let inputBoxValue, studentName, i, txtValue;
-  inputBoxValue = inputBox.value.toUpperCase();
+let searchButton = document.querySelector("button");
+let searchBox = document.querySelector("input");
+searchBox.addEventListener("keyup", () => {
+  let searchBoxValue, studentName, i, txtValue, paginationNum = 0, searchResultsArray = [];
+  //listOfStudentsContainer.innerHTML = " ";
+  //displayPage(listOfStudents);
+  let paginationDivContainer = document.querySelector(".pagination")
+  console.log(paginationDivContainer);
+  if(paginationDivContainer) {
+    pageContainer.removeChild(paginationDivContainer)
+  }
+  searchBoxValue = searchBox.value.toUpperCase();
   for (i = 0; i < listOfStudents.length; i++) {
     //console.log(list[i])
     studentName = listOfStudents[i].getElementsByTagName("h3")[0];
     //console.log(studentName)
     txtValue = studentName.textContent;
-    console.log(txtValue);
-    console.log(inputBoxValue);
-    if (txtValue.toUpperCase().indexOf(inputBoxValue) > -1) {
-      listOfStudents[i].style.display = "";
-    } else {
-      listOfStudents[i].style.display = "none";
-    }
+    //console.log(txtValue);
+    //console.log(searchBoxValue);
+    if (txtValue.toUpperCase().indexOf(searchBoxValue) > -1) {
+      //listOfStudents[i].style.display = "";
+      //paginationNum += 1;
+      searchResultsArray.push(listOfStudents[i])
+      //console.log(searchResultsArray)
+      //console.log(paginationNum)
+    } 
+    
   }
-  const filterListOfStudents = document.querySelectorAll(".student-item");
-  //document.querySelector("pagination");
-  //appendPageLinks(filterListOfStudents);
-}); //() => console.log("hello"))//);
+  displayPage(searchResultsArray, 1)
+  appendPageLinks(searchResultsArray);
+}); 
+
+displayPage(listOfStudents, 1)
+appendPageLinks(listOfStudents);
+
+
+
+
+
+
+
+
+
+
+
 
 
 //search button implementation
 searchButton.addEventListener("click", () => {
-    let inputBoxValue, studentName, i, txtValue;
-    inputBoxValue = inputBox.value.toUpperCase();
-    for (i = 0; i < listOfStudents.length; i++) {
-      //console.log(list[i])
-      studentName = listOfStudents[i].getElementsByTagName("h3")[0];
-      //console.log(studentName)
-      txtValue = studentName.textContent;
-     
-      if (txtValue.toUpperCase().indexOf(inputBoxValue) > -1) {
-        listOfStudents[i].style.display = "";
-      } else {
-        listOfStudents[i].style.display = "none";
-      }
+  let searchBoxValue, studentName, i, txtValue, searchResultsArray;
+  searchBoxValue = searchBox.value.toUpperCase();
+  for (i = 0; i < listOfStudents.length; i++) {
+    //console.log(list[i])
+    studentName = listOfStudents[i].getElementsByTagName("h3")[0];
+    //console.log(studentName)
+    txtValue = studentName.textContent;
+
+    if (txtValue.toUpperCase().indexOf(searchBoxValue) > -1) {
+      listOfStudents[i].style.display = "";
+      searchResultsArray.push(listOfStudents[i])
+      console.log(searchResultsArray)
+    } else {
+      listOfStudents[i].style.display = "none";
     }
-    //const filterListOfStudents = document.querySelectorAll(".student-item");
-    //document.querySelector("pagination");
-    //appendPageLinks(filterListOfStudents);
-    //1. add all students whose name meet criteria to student-list container.
-    //2. call pagination on your results
   }
-)
-displayPage(listOfStudents, 1); //default page is number 1
-appendPageLinks(listOfStudents); //call function to add pagination numbers
+  // let filteredListOfStudents = document.querySelectorAll(".student-item");
+  // console.log("hello");
+  // console.log(filteredListOfStudents);*9+-*6
+  // console.log(filteredListOfStudents.length);
+  // appendPageLinks(filteredListOfStudents);
+  //document.querySelector("pagination");
+  //appendPageLinks(filterListOfStudents);
+  //1. add all students whose name meet criteria to student-list container.
+  //2. call pagination on your results
+});
+//displayPage(listOfStudents, 1); //default page is number 1
+//appendPageLinks(listOfStudents); //call function to add pagination numbers
