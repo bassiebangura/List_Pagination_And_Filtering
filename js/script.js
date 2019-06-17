@@ -109,20 +109,16 @@ searchBox.addEventListener("keyup", () => {
     studentName = listOfStudents[i].getElementsByTagName("h3")[0];
     txtValue = studentName.textContent;
     if (txtValue.toUpperCase().indexOf(searchBoxValue) > -1) {
-      //listOfStudents[i].style.display = "";
-      //paginationNum += 1;
       searchResultsArray.push(listOfStudents[i])
-      //console.log(searchResultsArray)
-      //console.log(paginationNum)
     } 
     
   }
-  displayPage(searchResultsArray, 1)
+  displayPage(searchResultsArray)
   appendPageLinks(searchResultsArray);
 }); 
 
-displayPage(listOfStudents, 1)
-appendPageLinks(listOfStudents);
+displayPage(listOfStudents);//creates default page when js is enabled
+appendPageLinks(listOfStudents);//append default page links when js is enabled.
 
 
 
