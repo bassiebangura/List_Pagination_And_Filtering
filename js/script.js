@@ -31,7 +31,7 @@ searchFilterContainer.appendChild(searchFilterContainerSearchBoxButton);
 pageHeaderContainer.appendChild(searchFilterContainer);
 
 let displayPage = (list, page = 1) => {
-  /*function evlautes start and end index an display  10 items within range.
+  /*function evlautes start and end index and display  10 items within range.
     With a default page number of 1;
    */
   listOfStudentsContainer.innerHTML = " ";
@@ -75,16 +75,18 @@ let appendPageLinks = totalItems => {
 
   paginationListUl.addEventListener("click", el => {
     /*add click event to paginationList 'ul' and use event bubbling
-    to respond to click events on pagination list page numbers.
+    to respond to click events on pagination list page number.
     */
     paginationListLinks.forEach(item => {
       //use .forEach to remove the 'active' class
       if (item.classList.length) {
         item.classList = " ";
       }
+      if (el.target === item) {
+        el.target.classList += "active"; //add active class to link element
+      }
     });
 
-    el.target.classList += "active"; //add active class to target element
     displayPage(listOfStudents, el.target.textContent);
   });
 };
